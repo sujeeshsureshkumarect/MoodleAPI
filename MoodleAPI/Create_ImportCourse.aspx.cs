@@ -211,7 +211,7 @@ namespace MoodleAPI
                             {
                                 postImportDeleteGroup.Write(formDeleteGroup, 0, formDeleteGroup.Length);
                             }
-                            // Get the Response
+                            // Get the Response---
                             HttpWebResponse respImportDeleteGroup = (HttpWebResponse)reqDeleteGroup.GetResponse();
                             Stream resStreamImportDeleteGroup = respImportDeleteGroup.GetResponseStream();
                             StreamReader readerImportDeleteGroup = new StreamReader(resStreamImportDeleteGroup);
