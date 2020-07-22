@@ -21,7 +21,7 @@ namespace MoodleAPI
         }
         protected void btn_CreateGroup_Click(object sender, EventArgs e)
         {
-            string contents = core_group_create_groups(txt_courseid.Text.Trim(),txt_groupname.Text.Trim(),txt_groupdesc.Text.Trim(),txt_descformat.Text.Trim(),txt_enrolkey.Text.Trim(),txt_idnumber.Text.Trim());
+            string contents = core_group_create_groups(txt_courseid.Text.Trim(), txt_groupname.Text.Trim(), txt_groupdesc.Text.Trim(), txt_descformat.Text.Trim(), txt_enrolkey.Text.Trim(), txt_idnumber.Text.Trim());
             // Deserialize
             JavaScriptSerializer serializer = new JavaScriptSerializer();
             if (contents.Contains("exception"))
@@ -97,7 +97,7 @@ namespace MoodleAPI
             public string description { get; set; }
             public string descriptionformat { get; set; }
             public string enrolmentkey { get; set; }
-            public string idnumber { get; set; }            
+            public string idnumber { get; set; }
         }
 
         public class MoodleException

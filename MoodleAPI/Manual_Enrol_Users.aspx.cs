@@ -21,7 +21,7 @@ namespace MoodleAPI
 
         protected void btn_Enroll_Click(object sender, EventArgs e)
         {
-            string contents = enrol_manual_enrol_users(txt_roleid.Text.Trim(), txt_userid.Text.Trim(),txt_Courseid.Text.Trim(),txt_Suspend.Text.Trim());
+            string contents = enrol_manual_enrol_users(txt_roleid.Text.Trim(), txt_userid.Text.Trim(), txt_Courseid.Text.Trim(), txt_Suspend.Text.Trim());
             // Deserialize
             JavaScriptSerializer serializer = new JavaScriptSerializer();
             if (contents.Contains("exception"))
@@ -37,7 +37,7 @@ namespace MoodleAPI
                 lbl_results.Text = "User Enrolled Successfuly";
             }
         }
-        public string enrol_manual_enrol_users(string roleid, string userid,string courseid,string suspend)
+        public string enrol_manual_enrol_users(string roleid, string userid, string courseid, string suspend)
         {
             ServicePointManager.Expect100Continue = true;
             ServicePointManager.DefaultConnectionLimit = 9999;
@@ -56,7 +56,7 @@ namespace MoodleAPI
 
             Array arrGroups = groupsList.ToArray();
 
-            String postData = String.Format("enrolments[0][roleid]={0}&enrolments[0][userid]={1}&enrolments[0][courseid]={2}&enrolments[0][suspend]={3}", enrol.roleid, enrol.userid,enrol.courseid,enrol.suspend);
+            String postData = String.Format("enrolments[0][roleid]={0}&enrolments[0][userid]={1}&enrolments[0][courseid]={2}&enrolments[0][suspend]={3}", enrol.roleid, enrol.userid, enrol.courseid, enrol.suspend);
             string createRequest = string.Format("https://lms.ectmoodle.ae/webservice/rest/server.php?wstoken={0}&wsfunction={1}&moodlewsrestformat=json", token, "enrol_manual_enrol_users");
             // Call Moodle REST Service
             HttpWebRequest req = (HttpWebRequest)WebRequest.Create(createRequest);
