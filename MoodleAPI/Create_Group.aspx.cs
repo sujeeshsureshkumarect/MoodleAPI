@@ -41,7 +41,7 @@ namespace MoodleAPI
                     id = value.id;
                     name = value.name;
                 }
-                lbl_results.Text = "Group Created Successfuly-" + id + "/" + name + "";
+                lbl_results.Text = "Group Created Successfully-" + id + "/" + name + "";
             }
         }
         public string core_group_create_groups(string courseid, string name, string description, string descriptionformat, string enrolmentkey, string idnumber)
