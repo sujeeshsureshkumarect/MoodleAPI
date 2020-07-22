@@ -35,7 +35,7 @@ namespace MoodleAPI
             {
                 // Good
                 List<string> newGroups = serializer.Deserialize<List<string>>(contents);
-                lbl_results.Text = "User UnEnrolled Successfuly";
+                lbl_results.Text = "User UnEnrolled Successfully";
             }
         }
         public string enrol_manual_unenrol_users(string userid, string courseid, string roleid)
