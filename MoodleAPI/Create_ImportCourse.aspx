@@ -68,6 +68,23 @@ tr:nth-child(even) {
     <td><asp:TextBox ID="txt_NewsItems" runat="server" Text="5"></asp:TextBox></td>  
   </tr>
 
+           <tr>
+<td><asp:Label ID="lbl_startdate" runat="server" Text="Start Date"></asp:Label></td>
+    <td><asp:TextBox ID="txt_StatrtDate" runat="server" TextMode="Date"></asp:TextBox></td>  
+  </tr>
+       <tr>
+<td><asp:Label ID="lbl_EndDate" runat="server" Text="End Date"></asp:Label></td>
+    <td><asp:TextBox ID="txt_EndDate" runat="server" TextMode="Date"></asp:TextBox></td>  
+  </tr>
+       <tr>
+<td><asp:Label ID="lbl_numsections" runat="server" Text="numsections"></asp:Label></td>
+    <td><asp:TextBox ID="txt_numsections" runat="server" Text="5"></asp:TextBox></td>  
+  </tr>
+       <tr>
+<td><asp:Label ID="lbl_maxbytes" runat="server" Text="maxbytes"></asp:Label></td>
+    <td><asp:TextBox ID="txt_maxbytes" runat="server" Text="52428800"></asp:TextBox></td>  
+  </tr>
+
     <tr>
 <td><asp:Label ID="lbl_showreports" runat="server" Text="Show Reports"></asp:Label></td>
     <td><asp:TextBox ID="txt_ShowReports" runat="server" Text="1"></asp:TextBox></td>  
@@ -91,6 +108,20 @@ tr:nth-child(even) {
 <td><asp:Label ID="lbl_defaultgroupingid" runat="server" Text="Defaul Grouping ID"></asp:Label></td>
     <td><asp:TextBox ID="txt_defaultgroupingid" runat="server" Text="0"></asp:TextBox></td>  
   </tr>  
+
+           <tr>
+<td><asp:Label ID="lbl_enablecompletion" runat="server" Text="enablecompletion"></asp:Label></td>
+    <td><asp:TextBox ID="txt_enablecompletion" runat="server" Text="1"></asp:TextBox></td>  
+  </tr>  
+       <tr>
+<td><asp:Label ID="lbl_completionnotify" runat="server" Text="completionnotify"></asp:Label></td>
+    <td><asp:TextBox ID="txt_completionnotify" runat="server" Text="1"></asp:TextBox></td>  
+  </tr>  
+       <tr>
+<td><asp:Label ID="lbl_lang" runat="server" Text="lang"></asp:Label></td>
+    <td><asp:TextBox ID="txt_lang" runat="server" Text="en"></asp:TextBox></td>  
+  </tr> 
+
       <tr>
 <td><asp:Label ID="lbl_ImportCourse" runat="server" Text="Import From Course ID"></asp:Label></td>
     <td><asp:TextBox ID="txt_ImportCourseID" runat="server"></asp:TextBox></td>  

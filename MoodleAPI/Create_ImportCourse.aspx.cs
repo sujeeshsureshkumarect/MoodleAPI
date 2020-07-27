@@ -10,6 +10,8 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Runtime.Serialization.Json;
 using System.Web.Script.Serialization;
+using System.Data;
+using Newtonsoft.Json;
 
 namespace MoodleAPI
 {
@@ -27,7 +29,8 @@ namespace MoodleAPI
 
             String token = "1b4cb9114197a84985695b19b1164d0a";
 
-            Int32 unixTimestamp = (Int32)(DateTime.UtcNow.Subtract(new DateTime(1970, 1, 1))).TotalSeconds;
+            long start = ToUnixTimestamp(Convert.ToDateTime(txt_StatrtDate.Text));
+            long end = ToUnixTimestamp(Convert.ToDateTime(txt_EndDate.Text));
 
             //Start Create New Course
             MoodleCourses courses = new MoodleCourses();
@@ -40,18 +43,29 @@ namespace MoodleAPI
             courses.format = HttpUtility.UrlEncode(txt_format.Text.Trim());
             courses.showgrades = HttpUtility.UrlEncode(txt_showgrades.Text.Trim());
             courses.newsitems = HttpUtility.UrlEncode(txt_NewsItems.Text.Trim());
+
+            courses.startdate = HttpUtility.UrlEncode(start.ToString());
+            courses.enddate = HttpUtility.UrlEncode(end.ToString());
+            courses.numsections = HttpUtility.UrlEncode(txt_numsections.Text.Trim());
+            courses.maxbytes = HttpUtility.UrlEncode(txt_maxbytes.Text.Trim());
+
             courses.showreports = HttpUtility.UrlEncode(txt_ShowReports.Text.Trim());
             courses.visible = HttpUtility.UrlEncode(txt_visible.Text.Trim());
             courses.groupmode = HttpUtility.UrlEncode(txt_groupmode.Text.Trim());
             courses.groupmodeforce = HttpUtility.UrlEncode(txt_groupmodeforce.Text.Trim());
             courses.defaultgroupingid = HttpUtility.UrlEncode(txt_defaultgroupingid.Text.Trim());
 
+            courses.enablecompletion = HttpUtility.UrlEncode(txt_enablecompletion.Text.Trim());
+            courses.completionnotify = HttpUtility.UrlEncode(txt_completionnotify.Text.Trim());
+            courses.lang = HttpUtility.UrlEncode(txt_lang.Text.Trim());
+
             List<MoodleCourses> coursesList = new List<MoodleCourses>();
             coursesList.Add(courses);
 
             Array arrCourses = coursesList.ToArray();
 
-            String postData = String.Format("courses[0][fullname]={0}&courses[0][shortname]={1}&courses[0][categoryid]={2}&courses[0][idnumber]={3}&courses[0][summary]={4}&courses[0][summaryformat]={5}&courses[0][format]={6}&courses[0][showgrades]={7}&courses[0][newsitems]={8}&courses[0][showreports]={9}&courses[0][visible]={10}&courses[0][groupmode]={11}&courses[0][groupmodeforce]={12}&courses[0][defaultgroupingid]={13}", courses.fullname, courses.shortname, courses.categoryid, courses.idnumber, courses.summary, courses.summaryformat, courses.format, courses.showgrades, courses.newsitems, courses.showreports, courses.visible, courses.groupmode, courses.groupmodeforce, courses.defaultgroupingid);
+            //String postData = String.Format("courses[0][fullname]={0}&courses[0][shortname]={1}&courses[0][categoryid]={2}&courses[0][idnumber]={3}&courses[0][summary]={4}&courses[0][summaryformat]={5}&courses[0][format]={6}&courses[0][showgrades]={7}&courses[0][newsitems]={8}&courses[0][showreports]={9}&courses[0][visible]={10}&courses[0][groupmode]={11}&courses[0][groupmodeforce]={12}&courses[0][defaultgroupingid]={13}", courses.fullname, courses.shortname, courses.categoryid, courses.idnumber, courses.summary, courses.summaryformat, courses.format, courses.showgrades, courses.newsitems, courses.showreports, courses.visible, courses.groupmode, courses.groupmodeforce, courses.defaultgroupingid);
+            String postData = String.Format("courses[0][fullname]={0}&courses[0][shortname]={1}&courses[0][categoryid]={2}&courses[0][idnumber]={3}&courses[0][summary]={4}&courses[0][summaryformat]={5}&courses[0][format]={6}&courses[0][showgrades]={7}&courses[0][newsitems]={8}&courses[0][startdate]={9}&courses[0][enddate]={10}&courses[0][numsections]={11}&courses[0][maxbytes]={12}&courses[0][showreports]={13}&courses[0][visible]={14}&courses[0][groupmode]={15}&courses[0][groupmodeforce]={16}&courses[0][defaultgroupingid]={17}&courses[0][enablecompletion]={18}&courses[0][completionnotify]={19}&courses[0][lang]={20}", courses.fullname, courses.shortname, courses.categoryid, courses.idnumber, courses.summary, courses.summaryformat, courses.format, courses.showgrades, courses.newsitems, courses.startdate, courses.enddate, courses.numsections, courses.maxbytes, courses.showreports, courses.visible, courses.groupmode, courses.groupmodeforce, courses.defaultgroupingid, courses.enablecompletion, courses.completionnotify, courses.lang);
 
             string createRequest = string.Format("https://lms.ectmoodle.ae/webservice/rest/server.php?wstoken={0}&wsfunction={1}&moodlewsrestformat=json", token, "core_course_create_courses");
 
@@ -98,9 +112,36 @@ namespace MoodleAPI
                 }
                 //End Create New Course
 
+
+                // Deserialize
+                string idimportcourse = "";
+                string contentsimport = core_course_get_courses_by_field("idnumber", txt_ImportCourseID.Text.Trim());
+                JavaScriptSerializer serializer1 = new JavaScriptSerializer();
+                if (contentsimport.Contains("exception"))
+                {
+                    // Error
+                    MoodleException moodleError = serializer1.Deserialize<MoodleException>(contentsimport);
+                    lbl_results.Text = contentsimport;
+                }
+                else
+                {
+                    // Good
+                    //List<MoodleCourses_Get> newCourses1 = serializer.Deserialize<List<MoodleCourses_Get>>(contents1);                   
+                    //string fullname1 = "";
+                    //foreach (var value in newCourses1)
+                    //{
+                    //    idimportcourse = value.id;
+                    //    fullname1 = value.fullname;
+                    //}
+
+                    //object yourOjbect = new JavaScriptSerializer().DeserializeObject(contentsimport);
+                    DataSet importobject = JsonConvert.DeserializeObject<DataSet>(contentsimport);
+                    idimportcourse = importobject.Tables[0].Rows[0]["id"].ToString();
+                }
+
                 //Start Import Previous Course Contents to the Created Course Now
                 MoodleImportCourse import = new MoodleImportCourse();
-                import.importfrom = HttpUtility.UrlEncode(txt_ImportCourseID.Text.Trim());
+                import.importfrom = HttpUtility.UrlEncode(idimportcourse);
                 import.importto = HttpUtility.UrlEncode(id);
                 import.deletecontent = HttpUtility.UrlEncode("0");
                 import.name = HttpUtility.UrlEncode("activities");
@@ -141,7 +182,7 @@ namespace MoodleAPI
                 {
                     // Error
                     MoodleException moodleError = serializerImport.Deserialize<MoodleException>(contentsImport);
-                    lbl_results.Text = contents;
+                    lbl_results.Text = contentsImport;
                 }
                 else
                 {
@@ -234,7 +275,66 @@ namespace MoodleAPI
                 }
             }
         }
-        public class MoodleCourses
+
+        public string core_course_get_courses_by_field(string field,string value)
+        {
+            ServicePointManager.Expect100Continue = true;
+            ServicePointManager.DefaultConnectionLimit = 9999;
+            ServicePointManager.SecurityProtocol = (SecurityProtocolType)3072;
+
+            String token = "1b4cb9114197a84985695b19b1164d0a";
+
+
+            course_get_courses courses = new course_get_courses();
+            courses.field = HttpUtility.UrlEncode(field);
+            courses.value = HttpUtility.UrlEncode(value);
+            
+            List<course_get_courses> coursesList = new List<course_get_courses>();
+            coursesList.Add(courses);
+
+            Array arrCourses = coursesList.ToArray();
+
+            String postData = String.Format("field={0}&value={1}", courses.field, courses.value);
+
+            string createRequest = string.Format("https://lms.ectmoodle.ae/webservice/rest/server.php?wstoken={0}&wsfunction={1}&moodlewsrestformat=json", token, "core_course_get_courses_by_field");
+
+            // Call Moodle REST Service
+            HttpWebRequest req = (HttpWebRequest)WebRequest.Create(createRequest);
+            req.Method = "POST";
+            req.ContentType = "application/x-www-form-urlencoded";
+
+            // Encode the parameters as form data:
+            byte[] formData =
+                UTF8Encoding.UTF8.GetBytes(postData);
+            req.ContentLength = formData.Length;
+
+            // Write out the form Data to the request:
+            using (Stream post = req.GetRequestStream())
+            {
+                post.Write(formData, 0, formData.Length);
+            }
+
+
+            // Get the Response
+            HttpWebResponse resp = (HttpWebResponse)req.GetResponse();
+            Stream resStream = resp.GetResponseStream();
+            StreamReader reader = new StreamReader(resStream);
+            string contents = reader.ReadToEnd();         
+            return contents;
+        }
+
+        public class course_get_courses
+        {
+            public string field { get; set; }
+            public string value { get; set; }           
+        }
+        public class MoodleCourses_Get
+        {
+            public string id { get; set; }
+            public string fullname { get; set; }
+        }
+
+            public class MoodleCourses
         {
             public string fullname { get; set; }
             public string shortname { get; set; }
@@ -245,13 +345,29 @@ namespace MoodleAPI
             public string format { get; set; }
             public string showgrades { get; set; }
             public string newsitems { get; set; }
+
+            public string startdate { get; set; }
+            public string enddate { get; set; }
+            public string numsections { get; set; }
+            public string maxbytes { get; set; }
+
             public string showreports { get; set; }
             public string visible { get; set; }
             public string groupmode { get; set; }
             public string groupmodeforce { get; set; }
             public string defaultgroupingid { get; set; }
-        }
 
+            public string enablecompletion { get; set; }
+            public string completionnotify { get; set; }
+            public string lang { get; set; }
+        }
+        public static long ToUnixTimestamp(DateTime target)
+        {
+            var date = new DateTime(1970, 1, 1, 0, 0, 0, target.Kind);
+            var unixTimestamp = System.Convert.ToInt64((target - date).TotalSeconds);
+
+            return unixTimestamp;
+        }
         public class MoodleException
         {
             public string exception { get; set; }
