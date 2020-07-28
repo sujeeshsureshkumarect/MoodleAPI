@@ -104,6 +104,9 @@ namespace MoodleAPI
 
             Array arrGroups = groupsList.ToArray();
 
+            //String postData = String.Format("field={0}&values[0]={1}", getusers.key, getusers.value);
+            //string createRequest = string.Format("https://lms.ectmoodle.ae/webservice/rest/server.php?wstoken={0}&wsfunction={1}&moodlewsrestformat=json", token, "core_user_get_users_by_field");
+
             String postData = String.Format("criteria[0][key]={0}&criteria[0][value]={1}", getusers.key, getusers.value);
             string createRequest = string.Format("https://lms.ectmoodle.ae/webservice/rest/server.php?wstoken={0}&wsfunction={1}&moodlewsrestformat=json", token, "core_user_get_users");
             // Call Moodle REST Service
