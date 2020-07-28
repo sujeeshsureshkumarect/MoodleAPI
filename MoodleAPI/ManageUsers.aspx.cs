@@ -48,7 +48,7 @@ namespace MoodleAPI
                     else
                     {
                         //If user not exists then create a new user with below parameters;
-                        string created_user = core_user_create_users(txt_Username.Text.Trim(), txt_Password.Text.Trim(), txt_FirstName.Text.Trim(), txt_LastName.Text.Trim(), txt_Email.Text.Trim(), txt_Mailformat.Text.Trim(), txt_Description.Text.Trim(), txt_City.Text.Trim(), txt_firstnamephonetic.Text.Trim(), txt_lastnamephonetic.Text.Trim(), txt_middlename.Text.Trim(), txt_alternatename.Text.Trim());
+                        string created_user = core_user_create_users(txt_Username.Text.Trim(), txt_Password.Text.Trim(), txt_FirstName.Text.Trim(), txt_LastName.Text.Trim(), txt_Email.Text.Trim(),txt_Auth.Text.Trim(), txt_Mailformat.Text.Trim(), txt_Description.Text.Trim(), txt_City.Text.Trim(), txt_Country.Text.Trim(), txt_firstnamephonetic.Text.Trim(), txt_lastnamephonetic.Text.Trim(), txt_middlename.Text.Trim(), txt_alternatename.Text.Trim());
                         // Deserialize
                         JavaScriptSerializer serializercreated_user = new JavaScriptSerializer();
                         if (created_user.Contains("exception"))
@@ -67,7 +67,7 @@ namespace MoodleAPI
                 else
                 {
                     //If user not exists then create a new user with below parameters;
-                    string created_user = core_user_create_users(txt_Username.Text.Trim(), txt_Password.Text.Trim(), txt_FirstName.Text.Trim(), txt_LastName.Text.Trim(), txt_Email.Text.Trim(), txt_Mailformat.Text.Trim(), txt_Description.Text.Trim(), txt_City.Text.Trim(), txt_firstnamephonetic.Text.Trim(), txt_lastnamephonetic.Text.Trim(), txt_middlename.Text.Trim(), txt_alternatename.Text.Trim());
+                    string created_user = core_user_create_users(txt_Username.Text.Trim(), txt_Password.Text.Trim(), txt_FirstName.Text.Trim(), txt_LastName.Text.Trim(), txt_Email.Text.Trim(),txt_Auth.Text.Trim(), txt_Mailformat.Text.Trim(), txt_Description.Text.Trim(), txt_City.Text.Trim(),txt_Country.Text.Trim(), txt_firstnamephonetic.Text.Trim(), txt_lastnamephonetic.Text.Trim(), txt_middlename.Text.Trim(), txt_alternatename.Text.Trim());
                     // Deserialize
                     JavaScriptSerializer serializercreated_user = new JavaScriptSerializer();
                     if (created_user.Contains("exception"))
@@ -130,7 +130,7 @@ namespace MoodleAPI
             return contents;
         }
 
-        public string core_user_create_users(string username, string password, string firstname, string lastname, string email, string mailformat, string description, string city, string firstnamephonetic, string lastnamephonetic, string middlename, string alternatename)
+        public string core_user_create_users(string username, string password, string firstname, string lastname, string email,string auth, string mailformat, string description, string city,string country, string firstnamephonetic, string lastnamephonetic, string middlename, string alternatename)
         {
             ServicePointManager.Expect100Continue = true;
             ServicePointManager.DefaultConnectionLimit = 9999;
@@ -145,7 +145,7 @@ namespace MoodleAPI
             CreateUser.firstname = HttpUtility.UrlEncode(firstname);
             CreateUser.lastname = HttpUtility.UrlEncode(lastname);
             CreateUser.email = HttpUtility.UrlEncode(email);
-            //CreateUser.auth = HttpUtility.UrlEncode(auth);
+            CreateUser.auth = HttpUtility.UrlEncode(auth);
             //CreateUser.idnumber = HttpUtility.UrlEncode(idnumber);
             //CreateUser.lang = HttpUtility.UrlEncode(lang);
             //CreateUser.calendartype = HttpUtility.UrlEncode(calendartype);
@@ -154,7 +154,7 @@ namespace MoodleAPI
             CreateUser.mailformat = HttpUtility.UrlEncode(mailformat);
             CreateUser.description = HttpUtility.UrlEncode(description);
             CreateUser.city = HttpUtility.UrlEncode(city);
-            //CreateUser.country = HttpUtility.UrlEncode(country);
+            CreateUser.country = HttpUtility.UrlEncode(country);
             CreateUser.firstnamephonetic = HttpUtility.UrlEncode(firstnamephonetic);
             CreateUser.lastnamephonetic = HttpUtility.UrlEncode(lastnamephonetic);
             CreateUser.middlename = HttpUtility.UrlEncode(middlename);
@@ -165,7 +165,7 @@ namespace MoodleAPI
 
             Array arrGroups = groupsList.ToArray();
 
-            String postData = String.Format("users[0][username]={0}&users[0][password]={1}&users[0][firstname]={2}&users[0][lastname]={3}&users[0][email]={4}&users[0][mailformat]={5}&users[0][description]={6}&users[0][city]={7}&users[0][firstnamephonetic]={8}&users[0][lastnamephonetic]={9}&users[0][middlename]={10}&users[0][alternatename]={11}", CreateUser.username, CreateUser.password, CreateUser.firstname, CreateUser.lastname, CreateUser.email, CreateUser.mailformat, CreateUser.description, CreateUser.city, CreateUser.firstnamephonetic, CreateUser.lastnamephonetic, CreateUser.middlename, CreateUser.alternatename);
+            String postData = String.Format("users[0][username]={0}&users[0][password]={1}&users[0][firstname]={2}&users[0][lastname]={3}&users[0][email]={4}&users[0][auth]={5}&users[0][mailformat]={6}&users[0][description]={7}&users[0][city]={8}&users[0][country]={9}&users[0][firstnamephonetic]={10}&users[0][lastnamephonetic]={11}&users[0][middlename]={12}&users[0][alternatename]={13}", CreateUser.username, CreateUser.password, CreateUser.firstname, CreateUser.lastname, CreateUser.email,CreateUser.auth, CreateUser.mailformat, CreateUser.description, CreateUser.city, CreateUser.country, CreateUser.firstnamephonetic, CreateUser.lastnamephonetic, CreateUser.middlename, CreateUser.alternatename);
             string createRequest = string.Format("https://lms.ectmoodle.ae/webservice/rest/server.php?wstoken={0}&wsfunction={1}&moodlewsrestformat=json", token, "core_user_create_users");
             // Call Moodle REST Service
             HttpWebRequest req = (HttpWebRequest)WebRequest.Create(createRequest);
@@ -234,7 +234,7 @@ namespace MoodleAPI
             public string firstname { get; set; }
             public string lastname { get; set; }
             public string email { get; set; }
-            //public string auth { get; set; }
+            public string auth { get; set; }
             //public string idnumber { get; set; }
             //public string lang { get; set; }
             //public string calendartype { get; set; }
@@ -243,7 +243,7 @@ namespace MoodleAPI
             public string mailformat { get; set; }
             public string description { get; set; }
             public string city { get; set; }
-            //public string country { get; set; }
+            public string country { get; set; }
             public string firstnamephonetic { get; set; }
             public string lastnamephonetic { get; set; }
             public string middlename { get; set; }

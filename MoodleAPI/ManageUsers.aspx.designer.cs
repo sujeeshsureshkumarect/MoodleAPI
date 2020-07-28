@@ -105,6 +105,24 @@ namespace MoodleAPI
         protected global::System.Web.UI.WebControls.TextBox txt_Email;
 
         /// <summary>
+        /// lbl_Auth control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label lbl_Auth;
+
+        /// <summary>
+        /// txt_Auth control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TextBox txt_Auth;
+
+        /// <summary>
         /// lbl_Mailformat control.
         /// </summary>
         /// <remarks>
@@ -157,6 +175,24 @@ namespace MoodleAPI
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.TextBox txt_City;
+
+        /// <summary>
+        /// lbl_Country control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label lbl_Country;
+
+        /// <summary>
+        /// txt_Country control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TextBox txt_Country;
 
         /// <summary>
         /// lbl_firstnamephonetic control.

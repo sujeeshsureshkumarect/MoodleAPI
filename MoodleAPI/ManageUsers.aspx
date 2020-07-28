@@ -48,10 +48,10 @@ tr:nth-child(even) {
     <td><asp:Label ID="lbl_Email" runat="server" Text="Email"></asp:Label></td>
     <td><asp:TextBox ID="txt_Email" runat="server"></asp:TextBox></td>   
   </tr>
-   <%--      <tr>
+         <tr>
     <td><asp:Label ID="lbl_Auth" runat="server" Text="Auth"></asp:Label></td>
-    <td><asp:TextBox ID="txt_Auth" runat="server" Text="manual"></asp:TextBox></td>   
-  </tr>--%>
+    <td><asp:TextBox ID="txt_Auth" runat="server" Text="oidc"></asp:TextBox></td>   
+  </tr>
     <%--    <tr>
     <td><asp:Label ID="lbl_idnumber" runat="server" Text="Idnumber"></asp:Label></td>
     <td><asp:TextBox ID="txt_idnumber" runat="server"></asp:TextBox></td>   
@@ -84,10 +84,10 @@ tr:nth-child(even) {
     <td><asp:Label ID="lbl_City" runat="server" Text="City"></asp:Label></td>
     <td><asp:TextBox ID="txt_City" runat="server" Text="Abu Dhabi"></asp:TextBox></td>   
   </tr>
- <%--    <tr>
+     <tr>
     <td><asp:Label ID="lbl_Country" runat="server" Text="Country"></asp:Label></td>
-    <td><asp:TextBox ID="txt_Country" runat="server" Text="United Arab Emirates"></asp:TextBox></td>   
-  </tr>--%>
+    <td><asp:TextBox ID="txt_Country" runat="server" Text="AE"></asp:TextBox></td>   
+  </tr>
       <tr>
     <td><asp:Label ID="lbl_firstnamephonetic" runat="server" Text="Firstnamephonetic"></asp:Label></td>
     <td><asp:TextBox ID="txt_firstnamephonetic" runat="server"></asp:TextBox></td>   
