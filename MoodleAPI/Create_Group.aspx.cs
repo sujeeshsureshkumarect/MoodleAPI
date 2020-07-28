@@ -10,6 +10,8 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Runtime.Serialization.Json;
 using System.Web.Script.Serialization;
+using System.Data;
+using Newtonsoft.Json;
 
 namespace MoodleAPI
 {
@@ -21,7 +23,33 @@ namespace MoodleAPI
         }
         protected void btn_CreateGroup_Click(object sender, EventArgs e)
         {
-            string contents = core_group_create_groups(txt_courseid.Text.Trim(), txt_groupname.Text.Trim(), txt_groupdesc.Text.Trim(), txt_descformat.Text.Trim(), txt_enrolkey.Text.Trim(), txt_idnumber.Text.Trim());
+            string idimportcourse = "";
+            string contentsimport = core_course_get_courses_by_field("idnumber", txt_courseid.Text.Trim());
+            JavaScriptSerializer serializer1 = new JavaScriptSerializer();
+            if (contentsimport.Contains("exception"))
+            {
+                // Error
+                MoodleException moodleError = serializer1.Deserialize<MoodleException>(contentsimport);
+                lbl_results.Text = contentsimport;
+            }
+            else
+            {
+                // Good
+                //List<MoodleCourses_Get> newCourses1 = serializer.Deserialize<List<MoodleCourses_Get>>(contents1);                   
+                //string fullname1 = "";
+                //foreach (var value in newCourses1)
+                //{
+                //    idimportcourse = value.id;
+                //    fullname1 = value.fullname;
+                //}
+
+                //object yourOjbect = new JavaScriptSerializer().DeserializeObject(contentsimport);
+                DataSet importobject = JsonConvert.DeserializeObject<DataSet>(contentsimport);
+                idimportcourse = importobject.Tables[0].Rows[0]["id"].ToString();
+            }
+
+
+            string contents = core_group_create_groups(idimportcourse, txt_groupname.Text.Trim(), txt_groupdesc.Text.Trim(), txt_descformat.Text.Trim(), txt_enrolkey.Text.Trim(), txt_idnumber.Text.Trim());
             // Deserialize
             JavaScriptSerializer serializer = new JavaScriptSerializer();
             if (contents.Contains("exception"))
@@ -89,6 +117,59 @@ namespace MoodleAPI
             StreamReader reader = new StreamReader(resStream);
             string contents = reader.ReadToEnd();
             return contents;
+        }
+
+        public string core_course_get_courses_by_field(string field, string value)
+        {
+            ServicePointManager.Expect100Continue = true;
+            ServicePointManager.DefaultConnectionLimit = 9999;
+            ServicePointManager.SecurityProtocol = (SecurityProtocolType)3072;
+
+            String token = "1b4cb9114197a84985695b19b1164d0a";
+
+
+            course_get_courses courses = new course_get_courses();
+            courses.field = HttpUtility.UrlEncode(field);
+            courses.value = HttpUtility.UrlEncode(value);
+
+            List<course_get_courses> coursesList = new List<course_get_courses>();
+            coursesList.Add(courses);
+
+            Array arrCourses = coursesList.ToArray();
+
+            String postData = String.Format("field={0}&value={1}", courses.field, courses.value);
+
+            string createRequest = string.Format("https://lms.ectmoodle.ae/webservice/rest/server.php?wstoken={0}&wsfunction={1}&moodlewsrestformat=json", token, "core_course_get_courses_by_field");
+
+            // Call Moodle REST Service
+            HttpWebRequest req = (HttpWebRequest)WebRequest.Create(createRequest);
+            req.Method = "POST";
+            req.ContentType = "application/x-www-form-urlencoded";
+
+            // Encode the parameters as form data:
+            byte[] formData =
+                UTF8Encoding.UTF8.GetBytes(postData);
+            req.ContentLength = formData.Length;
+
+            // Write out the form Data to the request:
+            using (Stream post = req.GetRequestStream())
+            {
+                post.Write(formData, 0, formData.Length);
+            }
+
+
+            // Get the Response
+            HttpWebResponse resp = (HttpWebResponse)req.GetResponse();
+            Stream resStream = resp.GetResponseStream();
+            StreamReader reader = new StreamReader(resStream);
+            string contents = reader.ReadToEnd();
+            return contents;
+        }
+
+        public class course_get_courses
+        {
+            public string field { get; set; }
+            public string value { get; set; }
         }
         public class MoodleGroups
         {

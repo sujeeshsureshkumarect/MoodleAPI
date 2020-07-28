@@ -55,7 +55,7 @@ tr:nth-child(even) {
   </tr>  
 
     <tr>
-        <td><asp:Button ID="btn_CreateGroup" runat="server" Text="Create Course" OnClick="btn_CreateGroup_Click"/></td>
+        <td><asp:Button ID="btn_CreateGroup" runat="server" Text="Create Group" OnClick="btn_CreateGroup_Click"/></td>
         <td><asp:label ID="lbl_results" runat="server"></asp:label></td>
     </tr>
 </table>
