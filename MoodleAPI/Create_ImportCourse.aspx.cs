@@ -221,7 +221,7 @@ namespace MoodleAPI
                     {
                         // Error
                         MoodleException moodleError = serializerImportCourseGroup.Deserialize<MoodleException>(contentsImportCourseGroup);
-                        lbl_results.Text = contents;
+                        lbl_results.Text = contentsImportCourseGroup;
                     }
                     else
                     {
@@ -262,7 +262,7 @@ namespace MoodleAPI
                             {
                                 // Error
                                 MoodleException moodleError = serializerImportDeleteGroup.Deserialize<MoodleException>(contentsImportDeleteGroup);
-                                lbl_results.Text = contents;
+                                lbl_results.Text = contentsImportDeleteGroup;
                             }
                             else
                             {
